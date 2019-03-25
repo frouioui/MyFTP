@@ -1,0 +1,69 @@
+language: c
+
+compiler: gcc
+
+sudo: require
+
+service:
+  - docker
+
+git:
+  depth: false
+  quiet: true
+
+## NOTIFICATIONS
+notifications:
+  email:
+    recipients:
+    - florent.poinsard@epitech.eu
+    on_success: never
+    on_failure: always
+  slack: epitech-tls-22:OsWtUSdnX45sPtL2EbBPO8aA
+
+jobs:
+    include :
+        - stage: build
+          name: "Build"
+          install:
+            - docker pull epitechcontent/epitest-docker
+          script:
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && make fclean && make"
+
+        - stage: tests
+          name: "Unit Tests"
+          install:
+            - docker pull epitechcontent/epitest-docker
+          script:
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && make tests_run_coverage"
+          after_script:
+            - bash <(curl -s https://codecov.io/bash) || echo "Codecov - Coverage error."
+        -
+          name: "Functional Tests"
+          if: branch IN (master, dev, tests, hotfix/travis)
+          before_script:
+            - docker pull epitechcontent/epitest-docker
+          script:
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && make tests_functional || echo no functional test yet"
+
+        - stage: deploy
+          name: "Deployement Epitech Server"
+          if: branch IN (master, hotfix/travis) AND type != cron AND type != pull_request
+          before_script:
+            - ssh-keyscan git.epitech.eu >> ~/.ssh/known_hosts
+            - git checkout $TRAVIS_BRANCH
+          script:
+            - git push --repo=git@git.epitech.eu:/florent.poinsard@epitech.eu/PSU_myftp_2018 --force
+        -
+          name: "Deployement Documentation"
+          if: branch IN (master, hotfix/travis, docs) AND type != cron AND type != pull_request
+          before_script:
+            - docker pull epitechcontent/epitest-docker
+          script:
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && dnf install doxygen -y && make doxygen ; rm -Rf Include/ Src/ Tests/ .github/ Makefile || true ; mv html/* . || true ; rm -Rf latex || true"
+          deploy:
+            provider: pages
+            skip_cleanup: true
+            github_token: $GITHUB_TOKEN
+            keep_history: true
+            on:
+              branch: master
