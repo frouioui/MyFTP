@@ -2,4 +2,12 @@
 
 cd $APPLICATION_DIRECTORY_DOCKER
 
-echo "oops"
+make fclean
+
+make
+
+make clean
+
+make re
+
+make myftp

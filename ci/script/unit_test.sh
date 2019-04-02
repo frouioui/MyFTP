@@ -2,4 +2,4 @@
 
 cd $APPLICATION_DIRECTORY_DOCKER
 
-echo "oops"
+make tests_run
