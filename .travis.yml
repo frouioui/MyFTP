@@ -11,14 +11,21 @@ git:
   depth: false
   quiet: true
 
-## NOTIFICATIONS
 notifications:
   email:
     recipients:
     - florent.poinsard@epitech.eu
     on_success: never
     on_failure: always
-  slack: epitech-tls-22:OsWtUSdnX45sPtL2EbBPO8aA
+  slack:
+    rooms:
+      - epitech-tls-22:OsWtUSdnX45sPtL2EbBPO8aA
+    template:
+      - "Build %{repository_slug}@%{branch} -> %{result} in %{duration}"
+
+env:
+  global:
+    - APPLICATION_DIRECTORY_DOCKER=/app/
 
 jobs:
     include :
@@ -26,40 +33,45 @@ jobs:
           name: "Build"
           install:
             - docker pull epitechcontent/epitest-docker
+          before_script:
+            - chmod +x ./ci/script/build.sh
           script:
-            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && make fclean && make"
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "cd app && ./ci/script/build.sh"
 
         - stage: tests
           name: "Unit Tests"
           install:
             - docker pull epitechcontent/epitest-docker
+          before_script:
+            - chmod +x ./ci/script/unit_test.sh
           script:
-            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && make tests_run_coverage"
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "cd app && ./ci/script/unit_test.sh"
           after_script:
-            - bash <(curl -s https://codecov.io/bash) || echo "Codecov - Coverage error."
+            - bash <(curl -s https://codecov.io/bash)
         -
           name: "Functional Tests"
           if: branch IN (master, dev, tests, hotfix/travis)
-          before_script:
+          install:
             - docker pull epitechcontent/epitest-docker
+          before_script:
+            - chmod +x ./ci/script/functional_test.sh
           script:
-            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && make tests_functional || echo no functional test yet"
+            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "cd app && ./ci/script/functional_test.sh"
 
         - stage: deploy
           name: "Deployement Epitech Server"
           if: branch IN (master, hotfix/travis) AND type != cron AND type != pull_request
           before_script:
-            - ssh-keyscan git.epitech.eu >> ~/.ssh/known_hosts
-            - git checkout $TRAVIS_BRANCH
+            - chmod +x ./ci/script/deploy_epitech.sh
           script:
-            - git push --repo=git@git.epitech.eu:/florent.poinsard@epitech.eu/PSU_myftp_2018 --force
+            - ./ci/script/deploy_epitech.sh
         -
           name: "Deployement Documentation"
           if: branch IN (master, hotfix/travis, docs) AND type != cron AND type != pull_request
           before_script:
-            - docker pull epitechcontent/epitest-docker
+            - chmod +x ./ci/script/deploy_documentation.sh
           script:
-            - docker run -v $PWD:/app epitechcontent/epitest-docker bash -c "echo ok" #"cd app && dnf install doxygen -y && make doxygen ; rm -Rf Include/ Src/ Tests/ .github/ Makefile || true ; mv html/* . || true ; rm -Rf latex || true"
+            - ./ci/script/deploy_documentation.sh
           deploy:
             provider: pages
             skip_cleanup: true
@@ -67,3 +79,11 @@ jobs:
             keep_history: true
             on:
               branch: master
+
+        - stage: deploy-test
+          name: "Deployement Epitech Server pre-prod"
+          if: branch IN (dev) AND type != cron AND type != pull_request
+          before_script:
+            - chmod +x ./ci/script/deploy_epitech_pre_prod.sh
+          script:
+            - ./ci/script/deploy_epitech_pre_prod.sh
