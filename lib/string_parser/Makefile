@@ -34,12 +34,14 @@ $(LIBRARY_NAME): $(OBJS)
 	ar rc $(LIBRARY_NAME) $(OBJS)
 	ar t $(LIBRARY_NAME)
 
-tests_compile: $(OBJS) $(TEST_OBJ)
-	$(CC) $(OBJS) $(TEST_OBJ) -o $(TEST_NAME) $(CRITERION)
+tests_compile:
+	$(CC) $(SRC) $(TEST_SRC) -o $(TEST_NAME) $(CRITERION) -I$(INCLUDE_DIRECTORY)
 
 clean:
 	rm -f $(OBJS) $(TEST_OBJS)
-
+	rm -f *.gcda
+	rm -f *.gcno
+	
 fclean: clean
 	rm -f $(LIBRARY_NAME) $(TEST_NAME)
 

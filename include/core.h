@@ -8,7 +8,9 @@
 #if !defined(_CORE_H)
 #define _CORE_H
 
-#define EXIT_SUCCESS 0
-#define EXIT_FAILURE 84
+#define SUCCESS 0
+#define FAILURE 84
+
+void print_helper(void);
 
 #endif // _CORE_H

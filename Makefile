@@ -31,13 +31,14 @@ LIBRARY_PATH					=	./lib
 LIBRARY_STRING_PARSER_INCLUDE	=	$(LIBRARY_PATH)/string_parser/include
 
 # Source files
-SRC			=	$(SRC_DIRECTORY)/argument/parser.c		\
+SRC			=	$(SRC_DIRECTORY)/argument/parser.c					\
+				$(SRC_DIRECTORY)/helper/helper.c					\
 
 # Main file
-MAIN_SRC	=	$(SRC_DIRECTORY)/main.c					\
+MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\
 
 # Test files
-TEST_SRC	=	$(TEST_DIRECTORY)/test.c				\
+TEST_SRC	=	$(TEST_DIRECTORY)/argument/parser_test.c			\
 
 # Rules
 all: $(BINARY_NAME)
@@ -52,13 +53,15 @@ tests_run: tests_compile
 	./$(TEST_BINARY_NAME) -j1
 	./$(LIBRARY_STRING_PARSER_TEST_NAME) -j1
 
-tests_compile: compile_library $(OBJS) $(TEST_OBJS)
+tests_compile: compile_library 
 	make tests_compile -C $(LIBRARY_PATH) ; cp $(LIBRARY_PATH)/$(LIBRARY_STRING_PARSER_TEST_NAME) .
-	$(CC) $(OBJS) $(TEST_OBJS) -o $(TEST_BINARY_NAME) $(STATIC_LIB_FLAG) $(CRITERION)
+	$(CC) $(SRC) $(TEST_SRC) -o $(TEST_BINARY_NAME) $(STATIC_LIB_FLAG) $(CRITERION) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE)
 
 clean:
 	make clean -C $(LIBRARY_PATH)
 	rm -f $(OBJS) $(MAIN_OBJ) $(TEST_OBJS)
+	rm -f *.gcda
+	rm -f *.gcno
 
 fclean: clean
 	make fclean -C $(LIBRARY_PATH)

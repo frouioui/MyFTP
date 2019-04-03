@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-echo "oops"
+chmod +x ./ci/tests/tester.
+make
+echo -e "\nBEGIN TEST\n"
+./ci/tests/tester.sh
