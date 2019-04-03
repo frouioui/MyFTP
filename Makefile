@@ -6,33 +6,48 @@
 
 # Compilation
 CC		=	gcc
-CFLAGS	=	-W -Werror -Wextra -Wall -I$(INCLUDE_DIRECTORY) 			\
-									-I$(LIBRARY_STRING_PARSER_INCLUDE) 	\
+CFLAGS	=	-W -Werror -Wextra -Wall -I$(INCLUDE_DIRECTORY) 				\
+									-I$(LIBRARY_STRING_PARSER_INCLUDE)		\
+									-I$(LIBRARY_SOCKET_INCLUDE)				\
 
+# FTP server
 BINARY_NAME							=	myftp
 TEST_BINARY_NAME					=	myftp_test
 
+# String parsing library
 LIBRARY_STRING_PARSER_NAME			=	string_parser.a
 LIBRARY_STRING_PARSER_TEST_NAME		=	string_parser_test
 
+# Socket library
+LIBRARY_SOCKET_NAME					=	socket.a
+LIBRARY_SOCKET_TEST_NAME			=	socket_test
+
+# Object files
 OBJS		=	$(SRC:.c=.o)
 MAIN_OBJ	=	$(MAIN_SRC:.c=.o)
 TEST_OBJS	=	$(TEST_SRC:.c=.o)
 
+# Criterion flags
 CRITERION	=	-lcriterion -lgcov --coverage
 
-STATIC_LIB_FLAG		=	-L$(LIBRARY_PATH) -lstring_parser
+# Static library flags
+STATIC_LIB_FLAG		=	-L$(LIBRARY_PATH) -lstring_parser -lsocket
 
 # Paths
 SRC_DIRECTORY					=	./src
 TEST_DIRECTORY					=	./tests
 INCLUDE_DIRECTORY				=	./include
 LIBRARY_PATH					=	./lib
+
 LIBRARY_STRING_PARSER_INCLUDE	=	$(LIBRARY_PATH)/string_parser/include
+LIBRARY_SOCKET_INCLUDE			=	$(LIBRARY_PATH)/socket/include
 
 # Source files
 SRC			=	$(SRC_DIRECTORY)/argument/parser.c					\
 				$(SRC_DIRECTORY)/helper/helper.c					\
+				$(SRC_DIRECTORY)/server/init_server.c				\
+				$(SRC_DIRECTORY)/server/init_server_connection.c	\
+				$(SRC_DIRECTORY)/server/server_error.c				\
 
 # Main file
 MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\
@@ -46,7 +61,13 @@ all: $(BINARY_NAME)
 $(BINARY_NAME): compile_library $(OBJS) $(MAIN_OBJ)
 	$(CC) $(OBJS) $(MAIN_OBJ) -o $(BINARY_NAME) $(STATIC_LIB_FLAG)
 
+debug: compile_library_debug $(OBJS) $(MAIN_OBJ)
+	$(CC) -g3 $(OBJS) $(MAIN_OBJ) -o $(BINARY_NAME) $(STATIC_LIB_FLAG)
+
 compile_library:
+	make -C $(LIBRARY_PATH)
+
+compile_library_debug:
 	make -C $(LIBRARY_PATH)
 
 tests_run: tests_compile
