@@ -1,0 +1,16 @@
+{
+  "tasks": [
+    {
+        "label": "make fclean",
+        "type": "shell",
+        "command": "make fclean"
+    },
+    {
+        "label": "make gdb",
+        "type": "shell",
+        "command": "make debug",
+        "dependsOn": "make fclean"
+    }
+  ],
+  "version": "2.0.0"
+}

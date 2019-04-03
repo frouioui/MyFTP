@@ -56,5 +56,6 @@ typedef struct server_s server_t;
 server_t init_server(const argument_t args);
 void init_server_connection(server_t *server);
 server_error_t new_server_error(server_error_type_t type, char *message);
+void server_start(server_t *server);
 
 #endif // _SERVER_H

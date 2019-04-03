@@ -48,6 +48,7 @@ SRC			=	$(SRC_DIRECTORY)/argument/parser.c					\
 				$(SRC_DIRECTORY)/server/init_server.c				\
 				$(SRC_DIRECTORY)/server/init_server_connection.c	\
 				$(SRC_DIRECTORY)/server/server_error.c				\
+				$(SRC_DIRECTORY)/server/server.c					\
 
 # Main file
 MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\
@@ -61,8 +62,9 @@ all: $(BINARY_NAME)
 $(BINARY_NAME): compile_library $(OBJS) $(MAIN_OBJ)
 	$(CC) $(OBJS) $(MAIN_OBJ) -o $(BINARY_NAME) $(STATIC_LIB_FLAG)
 
-debug: compile_library_debug $(OBJS) $(MAIN_OBJ)
-	$(CC) -g3 $(OBJS) $(MAIN_OBJ) -o $(BINARY_NAME) $(STATIC_LIB_FLAG)
+debug: compile_library_debug
+	$(CC) -g3 $(SRC) $(MAIN_SRC) -o $(BINARY_NAME) $(STATIC_LIB_FLAG) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE) -I$(LIBRARY_SOCKET_INCLUDE)
+
 
 compile_library:
 	make -C $(LIBRARY_PATH)
