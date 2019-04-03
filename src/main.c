@@ -25,6 +25,5 @@ int main(int argc, char *argv[])
     }
     server = init_server(args);
     init_server_connection(&server);
-    while (1);
     return (SUCCESS);
 }
