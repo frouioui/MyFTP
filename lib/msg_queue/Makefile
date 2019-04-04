@@ -22,10 +22,15 @@ TEST_DIRECTORY		=	./tests
 INCLUDE_DIRECTORY	=	./include
 
 # Source files
-SRC				=	$(SRC_DIRECTORY)/internet_connection.c			\
+SRC				=	$(SRC_DIRECTORY)/append_new_message.c				\
+					$(SRC_DIRECTORY)/create_msg_queue.c					\
+					$(SRC_DIRECTORY)/is_message_done.c					\
+					$(SRC_DIRECTORY)/destroy_msg_queue.c				\
+					$(SRC_DIRECTORY)/read_and_trim_last_message.c		\
 
 # Test files
-TEST_SRC		=			\
+TEST_SRC		=	$(TEST_DIRECTORY)/create_msg_queue_tests.c			\
+					$(TEST_DIRECTORY)/is_message_done_tests.c			\
 
 # Rules
 all: $(LIBRARY_NAME)
