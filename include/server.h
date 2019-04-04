@@ -9,11 +9,19 @@
 #define _SERVER_H
 
 #include <netinet/in.h>
+#include <sys/select.h>
 #include <stdbool.h>
 #include "argument.h"
 #include "client.h"
 
+// the maximum of pending connection used by listen()
 #define MAXIMUM_PENDING_CONNECTION 5
+
+// server's fd_set
+#define NUMBER_OF_SET 3
+#define READING_SET 0
+#define WRITING_SET 1
+#define WORKING_SET 2
 
 enum server_error_type_s {
     OTHER,
@@ -40,6 +48,7 @@ struct server_s {
     int nb_client;
     client_t *clients;
     server_error_t err;
+    fd_set sets[NUMBER_OF_SET];
 };
 
 typedef struct server_s server_t;
@@ -47,5 +56,6 @@ typedef struct server_s server_t;
 server_t init_server(const argument_t args);
 void init_server_connection(server_t *server);
 server_error_t new_server_error(server_error_type_t type, char *message);
+void server_start(server_t *server);
 
 #endif // _SERVER_H

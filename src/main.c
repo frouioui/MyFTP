@@ -25,5 +25,7 @@ int main(int argc, char *argv[])
     }
     server = init_server(args);
     init_server_connection(&server);
+    // TODO: handle error
+    server_start(&server);
     return (SUCCESS);
 }

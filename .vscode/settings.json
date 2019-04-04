@@ -3,6 +3,7 @@
         "server.h": "c",
         "socket.h": "c",
         "types.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "criterion.h": "c"
     }
 }
