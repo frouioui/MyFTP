@@ -49,8 +49,8 @@ void server_start(server_t *server)
 
     while (true) {
         server->sets[WORKING_SET] = server->sets[READING_SET];
-        ret = select(FD_SETSIZE, &server->sets[WORKING_SET], NULL, NULL,
-            &timeout);
+        ret = select(FD_SETSIZE, &server->sets[WORKING_SET],
+                                &server->sets[WRITING_SET], NULL, &timeout);
         if (ret == -1) {
             server->err = new_server_error(CONTINUE, strerror(errno));
         } else if (ret == 0) {
