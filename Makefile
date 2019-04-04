@@ -55,6 +55,7 @@ MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\
 
 # Test files
 TEST_SRC	=	$(TEST_DIRECTORY)/argument/parser_test.c			\
+				$(TEST_DIRECTORY)/server/init_server_test.c			\
 
 # Rules
 all: $(BINARY_NAME)

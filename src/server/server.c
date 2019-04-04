@@ -8,6 +8,8 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 #include "server.h"
 
 static struct timeval create_timeout(void)
@@ -50,9 +52,9 @@ void server_start(server_t *server)
         ret = select(FD_SETSIZE, &server->sets[WORKING_SET], NULL, NULL,
             &timeout);
         if (ret == -1) {
-            // error with select
+            server->err = new_server_error(CONTINUE, strerror(errno));
         } else if (ret == 0) {
-            // timeout
+            // TODO: handle timeout ref: https://github.com/frouioui/MyFTP/issues/17
         } else {
             which_client(server);
         }
