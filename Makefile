@@ -9,6 +9,7 @@ CC		=	gcc
 CFLAGS	=	-W -Werror -Wextra -Wall -I$(INCLUDE_DIRECTORY) 				\
 									-I$(LIBRARY_STRING_PARSER_INCLUDE)		\
 									-I$(LIBRARY_SOCKET_INCLUDE)				\
+									-I$(LIBRARY_MSG_QUEUE_INCLUDE)			\
 
 # FTP server
 BINARY_NAME							=	myftp
@@ -22,6 +23,10 @@ LIBRARY_STRING_PARSER_TEST_NAME		=	string_parser_test
 LIBRARY_SOCKET_NAME					=	socket.a
 LIBRARY_SOCKET_TEST_NAME			=	socket_test
 
+# Message queue library
+LIBRARY_MSG_QUEUE_NAME				=	msg_queue.a
+LIBRARY_MSG_QUEUE_TEST_NAME			=	msg_queue_test
+
 # Object files
 OBJS		=	$(SRC:.c=.o)
 MAIN_OBJ	=	$(MAIN_SRC:.c=.o)
@@ -31,7 +36,7 @@ TEST_OBJS	=	$(TEST_SRC:.c=.o)
 CRITERION	=	-lcriterion -lgcov --coverage
 
 # Static library flags
-STATIC_LIB_FLAG		=	-L$(LIBRARY_PATH) -lstring_parser -lsocket
+STATIC_LIB_FLAG		=	-L$(LIBRARY_PATH) -lstring_parser -lsocket -lmsg_queue
 
 # Paths
 SRC_DIRECTORY					=	./src
@@ -39,8 +44,10 @@ TEST_DIRECTORY					=	./tests
 INCLUDE_DIRECTORY				=	./include
 LIBRARY_PATH					=	./lib
 
+# Include path static libraries
 LIBRARY_STRING_PARSER_INCLUDE	=	$(LIBRARY_PATH)/string_parser/include
 LIBRARY_SOCKET_INCLUDE			=	$(LIBRARY_PATH)/socket/include
+LIBRARY_MSG_QUEUE_INCLUDE		=	$(LIBRARY_PATH)/msg_queue/include
 
 # Source files
 SRC			=	$(SRC_DIRECTORY)/argument/parser.c					\
@@ -64,7 +71,7 @@ $(BINARY_NAME): compile_library $(OBJS) $(MAIN_OBJ)
 	$(CC) $(OBJS) $(MAIN_OBJ) -o $(BINARY_NAME) $(STATIC_LIB_FLAG)
 
 debug: compile_library_debug
-	$(CC) -g3 $(SRC) $(MAIN_SRC) -o $(BINARY_NAME) $(STATIC_LIB_FLAG) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE) -I$(LIBRARY_SOCKET_INCLUDE)
+	$(CC) -g3 $(SRC) $(MAIN_SRC) -o $(BINARY_NAME) $(STATIC_LIB_FLAG) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE) -I$(LIBRARY_SOCKET_INCLUDE) -I$(LIBRARY_MSG_QUEUE_INCLUDE)
 
 
 compile_library:
@@ -75,11 +82,15 @@ compile_library_debug:
 
 tests_run: tests_compile
 	./$(TEST_BINARY_NAME) -j1
-	./$(LIBRARY_STRING_PARSER_TEST_NAME) -j1
+	./$(LIBRARY_PATH)/$(LIBRARY_STRING_PARSER_TEST_NAME) -j1
+	./$(LIBRARY_PATH)/$(LIBRARY_MSG_QUEUE_TEST_NAME) -j1
+	./$(LIBRARY_PATH)/$(LIBRARY_SOCKET_TEST_NAME) -j1
 
-tests_compile: compile_library 
+tests_compile: compile_library
 	make tests_compile -C $(LIBRARY_PATH) ; cp $(LIBRARY_PATH)/$(LIBRARY_STRING_PARSER_TEST_NAME) .
-	$(CC) $(SRC) $(TEST_SRC) -o $(TEST_BINARY_NAME) $(STATIC_LIB_FLAG) $(CRITERION) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE) -I$(LIBRARY_SOCKET_INCLUDE)
+	make tests_compile -C $(LIBRARY_PATH) ; cp $(LIBRARY_PATH)/$(LIBRARY_SOCKET_TEST_NAME) .
+	make tests_compile -C $(LIBRARY_PATH) ; cp $(LIBRARY_PATH)/$(LIBRARY_MSG_QUEUE_TEST_NAME) .
+	$(CC) $(SRC) $(TEST_SRC) -o $(TEST_BINARY_NAME) $(STATIC_LIB_FLAG) $(CRITERION) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE) -I$(LIBRARY_SOCKET_INCLUDE) -I$(LIBRARY_MSG_QUEUE_INCLUDE)
 
 clean:
 	make clean -C $(LIBRARY_PATH)
@@ -89,6 +100,6 @@ clean:
 
 fclean: clean
 	make fclean -C $(LIBRARY_PATH)
-	rm -f $(TEST_BINARY_NAME) $(BINARY_NAME) $(LIBRARY_STRING_PARSER_TEST_NAME)
+	rm -f $(TEST_BINARY_NAME) $(BINARY_NAME) $(LIBRARY_STRING_PARSER_TEST_NAME) $(LIBRARY_MSG_QUEUE_TEST_NAME) $(LIBRARY_SOCKET_TEST_NAME)
 
 re: fclean all
