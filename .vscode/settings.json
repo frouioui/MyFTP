@@ -4,6 +4,7 @@
         "socket.h": "c",
         "types.h": "c",
         "stdlib.h": "c",
-        "criterion.h": "c"
+        "criterion.h": "c",
+        "msg_queue.h": "c"
     }
 }

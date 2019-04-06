@@ -18,10 +18,11 @@
 #define MAXIMUM_PENDING_CONNECTION 5
 
 // server's fd_set
-#define NUMBER_OF_SET 3
+#define NUMBER_OF_SET 4
 #define READING_SET 0
 #define WRITING_SET 1
-#define WORKING_SET 2
+#define READWORK_SET 2
+#define WRITEWORK_SET 3
 
 enum server_error_type_s {
     OTHER,

@@ -9,6 +9,7 @@
 #define _CLIENT_H
 
 #include "user.h"
+#include "msg_queue.h"
 
 enum data_transfert_mode_s {
     NOT_SET,
@@ -20,11 +21,17 @@ typedef enum data_transfert_mode_s data_transfert_mode_t;
 
 
 struct client_s {
-    int socket;
     user_t user;
+    message_queue_t write_queue;
+    message_queue_t read_queue;
     data_transfert_mode_t dt_mode;
+    int dt_socket;
+    int socket;
 };
 
 typedef struct client_s client_t;
+
+void handle_io(void *server);
+void handle_read_client(void *server);
 
 #endif // _CLIENT_H
