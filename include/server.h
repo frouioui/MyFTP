@@ -25,13 +25,12 @@
 #define WRITEWORK_SET 3
 
 enum server_error_type_s {
-    OTHER,
+    NONE,
     FATAL,
     CONTINUE
 };
 
 typedef enum server_error_type_s server_error_type_t;
-
 
 struct server_error_s {
     char *msg;
@@ -39,7 +38,6 @@ struct server_error_s {
 };
 
 typedef struct server_error_s server_error_t;
-
 
 struct server_s {
     int port;
@@ -58,5 +56,6 @@ server_t init_server(const argument_t args);
 void init_server_connection(server_t *server);
 server_error_t new_server_error(server_error_type_t type, char *message);
 void server_start(server_t *server);
+void add_client_to_server(server_t *server, const client_t client);
 
 #endif // _SERVER_H

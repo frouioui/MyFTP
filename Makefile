@@ -56,8 +56,11 @@ SRC			=	$(SRC_DIRECTORY)/argument/parser.c					\
 				$(SRC_DIRECTORY)/server/init_server_connection.c	\
 				$(SRC_DIRECTORY)/server/server_error.c				\
 				$(SRC_DIRECTORY)/server/server.c					\
+				$(SRC_DIRECTORY)/server/add_client_to_server.c		\
 				$(SRC_DIRECTORY)/server/client/io_clients.c			\
 				$(SRC_DIRECTORY)/server/client/read_clients.c		\
+				$(SRC_DIRECTORY)/server/client/init_client_queues.c	\
+				$(SRC_DIRECTORY)/server/client/new_client.c			\
 
 # Main file
 MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\

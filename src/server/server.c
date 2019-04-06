@@ -17,7 +17,7 @@ static struct timeval create_timeout(void)
 {
     struct timeval timeout = {0};
 
-    timeout.tv_sec = 3 * 60;
+    timeout.tv_sec = 3;
     timeout.tv_usec = 0;
     return (timeout);
 }
@@ -31,11 +31,12 @@ void server_start(server_t *server)
         server->sets[READWORK_SET] = server->sets[READING_SET];
         server->sets[WRITEWORK_SET] = server->sets[WRITING_SET];
         ret = select(FD_SETSIZE, &server->sets[READWORK_SET],
-                                &server->sets[WRITEWORK_SET], NULL, &timeout);
+                                &server->sets[WRITEWORK_SET], NULL, NULL);
         if (ret == -1) {
             server->err = new_server_error(CONTINUE, strerror(errno));
         } else if (ret == 0) {
             // TODO: handle timeout ref: https://github.com/frouioui/MyFTP/issues/17
+            (void)timeout;
         } else {
             handle_io(server);
         }

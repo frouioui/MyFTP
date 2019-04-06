@@ -5,6 +5,7 @@
         "types.h": "c",
         "stdlib.h": "c",
         "criterion.h": "c",
-        "msg_queue.h": "c"
+        "msg_queue.h": "c",
+        "client.h": "c"
     }
 }
