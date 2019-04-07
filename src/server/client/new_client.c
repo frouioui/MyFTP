@@ -23,5 +23,6 @@ client_t connect_new_client(void *server)
         return (new_client);
     }
     FD_SET(new_client.socket, &srv->sets[READING_SET]);
+    FD_SET(new_client.socket, &srv->sets[WRITING_SET]);
     return (new_client);
 }

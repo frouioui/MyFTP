@@ -13,6 +13,6 @@ void handle_io(void *server)
 {
     server_t *srv = server;
 
-    // handle write
+    handle_write_client(srv);
     handle_read_client(srv);
 }

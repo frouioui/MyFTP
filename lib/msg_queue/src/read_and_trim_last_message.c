@@ -64,3 +64,24 @@ char *read_and_trim_last_message(message_queue_t *msg_queue,
     }
     return (ret);
 }
+
+char *get_whole_first_message(message_queue_t *msg_queue)
+{
+    char *cmd = NULL;
+    char *buf = NULL;
+
+    if (msg_queue->nb_msg == 0)
+        return (NULL);
+    cmd = malloc(sizeof(char) * 1);
+    cmd[0] = 0;
+    while (is_message_done(cmd, msg_queue->end_of_msg) == false) {
+        buf = read_and_trim_last_message(msg_queue, 1);
+        if (buf == NULL)
+            return (cmd);
+        cmd = realloc(cmd, sizeof(char) * (strlen(cmd) + strlen(buf) + 1));
+        if (cmd == NULL)
+            return (NULL);
+        cmd = strcat(cmd, buf);
+    }
+    return (cmd);
+}

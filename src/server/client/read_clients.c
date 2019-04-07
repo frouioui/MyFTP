@@ -23,6 +23,7 @@ static void handle_new_connection(server_t *server)
         return;
     }
     append_new_message(&client.write_queue, "202\r\n");
+    FD_SET(client.socket, &server->sets[WRITING_SET]);
     add_client_to_server(server, client);
     // TODO: log new connection
     printf("new connection\n");
@@ -33,7 +34,7 @@ static void handle_single_client(server_t *server, const int cur_fd)
     if (cur_fd == server->socket) {
         handle_new_connection(server);
     } else {
-        handle_old_client(server, cur_fd);
+        handle_old_client(server, cur_fd, true, false);
     }
 }
 

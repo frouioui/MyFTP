@@ -23,6 +23,7 @@ void user_login(server_t *server, client_t *client, char *cmd)
     } else {
         append_new_message(&client->write_queue, RESP_331);
     }
+    FD_SET(client->socket, &server->sets[WRITING_SET]);
     (void)server;
 }
 

@@ -41,13 +41,34 @@ static void read_client(client_t *client)
     }
 }
 
-void handle_old_client(void *server, const int client_fd)
+static void write_client(server_t *server, client_t *client)
+{
+    int ret = 1;
+    char *c = 0;
+
+    while (ret > 0) {
+        c = read_and_trim_last_message(&client->write_queue, 1);
+        if (c == NULL)
+            break;
+        ret = send(client->socket, c, 1, MSG_MORE);
+        free(c);
+    }
+    if (client->write_queue.nb_msg == 0) {
+        FD_CLR(client->socket, &server->sets[WRITING_SET]);
+    }
+}
+
+void handle_old_client(void *server, const int client_fd, bool r, bool w)
 {
     server_t *srv = server;
     client_t client = find_request_client(srv, client_fd);
 
     if (client.socket != client_fd)
         return;
-    read_client(&client);
-    execute_last_command(server, &client);
+    if (r) {
+        read_client(&client);
+        execute_last_command(server, &client);
+    } else if (w) {
+        write_client(server, &client);
+    }
 }
