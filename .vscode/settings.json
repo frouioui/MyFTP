@@ -6,6 +6,8 @@
         "stdlib.h": "c",
         "criterion.h": "c",
         "msg_queue.h": "c",
-        "client.h": "c"
+        "client.h": "c",
+        "select.h": "c",
+        "argument.h": "c"
     }
 }

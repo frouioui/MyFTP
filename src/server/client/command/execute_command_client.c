@@ -42,7 +42,8 @@ static void analyse_command(server_t *server, client_t *client,
 
     for (unsigned int i = 0; i < 2; i++) {
         if (strcmp(cmd_func[i].cmd, cmd) == 0) {
-            cmd_func[i].exec(server, client);
+            cmd_func[i].exec(server, client,
+                strdup(cmd + (strlen(cmd_func[i].cmd) + 1)));
             break;
         }
     }

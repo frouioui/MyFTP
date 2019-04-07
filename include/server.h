@@ -24,6 +24,12 @@
 #define READWORK_SET 2
 #define WRITEWORK_SET 3
 
+// server reponses
+#define RESP_230 "230 User logged in, proceed. Logged out if appropriate.\r\n"
+#define RESP_331 "331 User name okay, need password.\r\n"
+#define RESP_503 "503 Login with USER first.\r\n"
+#define RESP_530 "530 This FTP server is anonymous only.\r\n"
+
 enum server_error_type_s {
     NONE,
     FATAL,
