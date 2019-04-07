@@ -11,7 +11,8 @@
 
 void add_client_to_server(server_t *server, const client_t client)
 {
-    server->clients = realloc(server->clients, server->nb_client + 1);
+    server->clients = realloc(server->clients, sizeof(client_t) *
+        (server->nb_client + 1));
     server->clients[server->nb_client] = client;
     server->nb_client++;
 }

@@ -35,5 +35,6 @@ void handle_io(void *server);
 void handle_read_client(void *server);
 client_t connect_new_client(void *server);
 void init_client_queues(client_t *client);
+void handle_old_client(void *server, const int client_fd);
 
 #endif // _CLIENT_H

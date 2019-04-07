@@ -49,7 +49,7 @@ char *read_and_trim_last_message(message_queue_t *msg_queue,
     char *ret = NULL;
     char *msg = msg_queue->msg[0];
 
-    if (msg_queue->nb_msg == 0 || size == 0)
+    if (msg_queue->nb_msg == 0 || size == 0 || strlen(msg_queue->msg[0]) == 0)
         return (NULL);
     ret = malloc(sizeof(char) * (strlen(msg) + 1));
     memset(ret, 0, strlen(msg) + 1);

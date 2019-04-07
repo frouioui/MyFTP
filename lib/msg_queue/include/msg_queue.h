@@ -24,5 +24,6 @@ void destroy_message_queue(message_queue_t *msg_queue);
 char *read_and_trim_last_message(message_queue_t *msg_queue, const
     unsigned int size);
 void append_new_message(message_queue_t *msg_queue, char *msg);
+bool is_last_message_done(message_queue_t *msg_queue);
 
 #endif // _MSG_QUEUE_H

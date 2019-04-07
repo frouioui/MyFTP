@@ -10,6 +10,6 @@
 
 void init_client_queues(client_t *client)
 {
-    client->read_queue = create_message_queue("\n\r");
-    client->write_queue = create_message_queue("\n\r");
+    client->read_queue = create_message_queue("\r\n");
+    client->write_queue = create_message_queue("\r\n");
 }

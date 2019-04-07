@@ -50,17 +50,20 @@ LIBRARY_SOCKET_INCLUDE			=	$(LIBRARY_PATH)/socket/include
 LIBRARY_MSG_QUEUE_INCLUDE		=	$(LIBRARY_PATH)/msg_queue/include
 
 # Source files
-SRC			=	$(SRC_DIRECTORY)/argument/parser.c					\
-				$(SRC_DIRECTORY)/helper/helper.c					\
-				$(SRC_DIRECTORY)/server/init_server.c				\
-				$(SRC_DIRECTORY)/server/init_server_connection.c	\
-				$(SRC_DIRECTORY)/server/server_error.c				\
-				$(SRC_DIRECTORY)/server/server.c					\
-				$(SRC_DIRECTORY)/server/add_client_to_server.c		\
-				$(SRC_DIRECTORY)/server/client/io_clients.c			\
-				$(SRC_DIRECTORY)/server/client/read_clients.c		\
-				$(SRC_DIRECTORY)/server/client/init_client_queues.c	\
-				$(SRC_DIRECTORY)/server/client/new_client.c			\
+SRC			=	$(SRC_DIRECTORY)/argument/parser.c									\
+				$(SRC_DIRECTORY)/helper/helper.c									\
+				$(SRC_DIRECTORY)/server/init_server.c								\
+				$(SRC_DIRECTORY)/server/init_server_connection.c					\
+				$(SRC_DIRECTORY)/server/server_error.c								\
+				$(SRC_DIRECTORY)/server/server.c									\
+				$(SRC_DIRECTORY)/server/add_client_to_server.c						\
+				$(SRC_DIRECTORY)/server/client/io_clients.c							\
+				$(SRC_DIRECTORY)/server/client/read_clients.c						\
+				$(SRC_DIRECTORY)/server/client/init_client_queues.c					\
+				$(SRC_DIRECTORY)/server/client/new_client.c							\
+				$(SRC_DIRECTORY)/server/client/handle_old_client.c					\
+				$(SRC_DIRECTORY)/server/client/command/execute_command_client.c		\
+				$(SRC_DIRECTORY)/server/client/command/user_login.c					\
 
 # Main file
 MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\
@@ -78,12 +81,11 @@ $(BINARY_NAME): compile_library $(OBJS) $(MAIN_OBJ)
 debug: compile_library_debug
 	$(CC) -g3 $(SRC) $(MAIN_SRC) -o $(BINARY_NAME) $(STATIC_LIB_FLAG) -I$(INCLUDE_DIRECTORY) -I$(LIBRARY_STRING_PARSER_INCLUDE) -I$(LIBRARY_SOCKET_INCLUDE) -I$(LIBRARY_MSG_QUEUE_INCLUDE)
 
-
 compile_library:
 	make -C $(LIBRARY_PATH)
 
 compile_library_debug:
-	make -C $(LIBRARY_PATH)
+	make debug -C $(LIBRARY_PATH)
 
 tests_run: tests_compile
 	./$(TEST_BINARY_NAME) -j1
