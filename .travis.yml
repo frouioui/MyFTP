@@ -56,10 +56,13 @@ jobs:
         - stage: deploy
           name: "Deployement Epitech Server"
           if: branch IN (master, hotfix/travis) AND type != cron AND type != pull_request
-          before_script:
+          before_deploy:
             - chmod +x ./ci/script/deploy_epitech.sh
-          script:
-            - ./ci/script/deploy_epitech.sh
+          deploy:
+            provider: script
+            script: bash ci/script/deploy_epitech.sh
+            on:
+              branch: master
         -
           name: "Deployement Documentation"
           if: branch IN (master, hotfix/travis, docs) AND type != cron AND type != pull_request
@@ -78,7 +81,10 @@ jobs:
         - stage: deploy-test
           name: "Deployement Epitech Server pre-prod"
           if: branch IN (dev) AND type != cron AND type != pull_request
-          before_script:
+          before_deploy:
             - chmod +x ./ci/script/deploy_epitech_pre_prod.sh
-          script:
-            - ./ci/script/deploy_epitech_pre_prod.sh
+          deploy:
+            provider: script
+            script: bash ci/script/deploy_epitech_pre_prod.sh
+            on:
+              branch: dev
