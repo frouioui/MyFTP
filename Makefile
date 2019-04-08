@@ -62,8 +62,9 @@ SRC			=	$(SRC_DIRECTORY)/argument/parser.c									\
 				$(SRC_DIRECTORY)/server/client/init_client_queues.c					\
 				$(SRC_DIRECTORY)/server/client/new_client.c							\
 				$(SRC_DIRECTORY)/server/client/handle_old_client.c					\
-				$(SRC_DIRECTORY)/server/client/check_username.c						\
 				$(SRC_DIRECTORY)/server/client/write_clients.c						\
+				$(SRC_DIRECTORY)/server/client/user/check_username.c				\
+				$(SRC_DIRECTORY)/server/client/user/check_password.c				\
 				$(SRC_DIRECTORY)/server/client/command/execute_command_client.c		\
 				$(SRC_DIRECTORY)/server/client/command/user_login.c					\
 

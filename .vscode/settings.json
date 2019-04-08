@@ -8,6 +8,7 @@
         "msg_queue.h": "c",
         "client.h": "c",
         "select.h": "c",
-        "argument.h": "c"
+        "argument.h": "c",
+        "user.h": "c"
     }
 }

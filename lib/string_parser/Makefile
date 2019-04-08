@@ -24,6 +24,7 @@ INCLUDE_DIRECTORY	=	./include
 # Source files
 SRC				=	$(SRC_DIRECTORY)/is_number.c			\
 					$(SRC_DIRECTORY)/to_lowercase.c			\
+					$(SRC_DIRECTORY)/trim.c					\
 
 # Test files
 TEST_SRC		=	$(TEST_DIRECTORY)/is_number_test.c		\

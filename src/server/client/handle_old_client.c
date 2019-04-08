@@ -14,16 +14,14 @@
 #include "client.h"
 #include "command.h"
 
-static client_t find_request_client(server_t *server, const int client_fd)
+static client_t *find_request_client(server_t *server, const int client_fd)
 {
-    client_t empty = {0};
-
     for (int i = 0; i < server->nb_client; i++) {
         if (server->clients[i].socket == client_fd) {
-            return (server->clients[i]);
+            return (&server->clients[i]);
         }
     }
-    return (empty);
+    return (NULL);
 }
 
 static void read_client(client_t *client)
@@ -61,14 +59,14 @@ static void write_client(server_t *server, client_t *client)
 void handle_old_client(void *server, const int client_fd, bool r, bool w)
 {
     server_t *srv = server;
-    client_t client = find_request_client(srv, client_fd);
+    client_t *client = find_request_client(srv, client_fd);
 
-    if (client.socket != client_fd)
+    if (client->socket != client_fd)
         return;
     if (r) {
-        read_client(&client);
-        execute_last_command(server, &client);
+        read_client(client);
+        execute_last_command(server, client);
     } else if (w) {
-        write_client(server, &client);
+        write_client(server, client);
     }
 }
