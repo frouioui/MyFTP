@@ -52,3 +52,4 @@ Mkfile.old
 dkms.conf
 .vscode/ipch
 lib/msg_queue/src/main.c
+.vscode/settings.json

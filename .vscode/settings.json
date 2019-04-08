@@ -9,6 +9,7 @@
         "client.h": "c",
         "select.h": "c",
         "argument.h": "c",
-        "user.h": "c"
+        "user.h": "c",
+        "ioctl.h": "c"
     }
 }

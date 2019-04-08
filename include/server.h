@@ -25,6 +25,7 @@
 #define WRITEWORK_SET 3
 
 // server reponses
+#define RESP_220 "220 Connected\r\n"
 #define RESP_230 "230 User logged in, proceed. Logged out if appropriate.\r\n"
 #define RESP_331 "331 User name okay, need password.\r\n"
 #define RESP_332 "332 Need account for login.\r\n"

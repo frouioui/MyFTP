@@ -22,8 +22,9 @@ static void handle_new_connection(server_t *server)
     if (server->err.err_type != NONE) {
         return;
     }
-    append_new_message(&client.write_queue, "202\r\n");
+    append_new_message(&client.write_queue, RESP_220);
     FD_SET(client.socket, &server->sets[WRITING_SET]);
+    FD_SET(client.socket, &server->sets[READING_SET]);
     add_client_to_server(server, client);
     // TODO: log new connection
     printf("new connection\n");
