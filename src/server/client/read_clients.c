@@ -26,7 +26,6 @@ static void handle_new_connection(server_t *server)
     FD_SET(client.socket, &server->sets[WRITING_SET]);
     FD_SET(client.socket, &server->sets[READING_SET]);
     add_client_to_server(server, client);
-    // TODO: log new connection
     printf("new connection\n");
 }
 
