@@ -25,7 +25,10 @@ int main(int argc, char *argv[])
     }
     server = init_server(args);
     init_server_connection(&server);
-    // TODO: handle error
+    if (server.err.err_type != NONE) {
+        printf("%s\n", server.err.msg);
+        return (FAILURE);
+    }
     server_start(&server);
     return (SUCCESS);
 }

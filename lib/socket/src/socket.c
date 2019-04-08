@@ -12,7 +12,7 @@
 
 int create_socket(void)
 {
-    return (socket(AF_INET, SOCK_STREAM, 0));
+    return (socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0));
 }
 
 int bind_socket(const int socket, struct sockaddr_in *info, const bool rand)
