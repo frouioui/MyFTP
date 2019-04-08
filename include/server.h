@@ -25,11 +25,12 @@
 #define WRITEWORK_SET 3
 
 // server reponses
-#define RESP_220 "220 Connected\r\n"
+#define RESP_220 "220 Connected.\r\n"
+#define RESP_221 "221 Goodbye.\r\n"
 #define RESP_230 "230 User logged in, proceed. Logged out if appropriate.\r\n"
 #define RESP_331 "331 User name okay, need password.\r\n"
 #define RESP_332 "332 Need account for login.\r\n"
-#define RESP_430 "430 Invalid username or password\r\n"
+#define RESP_430 "430 Invalid username or password.\r\n"
 #define RESP_503 "503 Invalid sequence of command.\r\n"
 #define RESP_530 "530 This FTP server is anonymous only.\r\n"
 
@@ -66,5 +67,6 @@ void init_server_connection(server_t *server);
 server_error_t new_server_error(server_error_type_t type, char *message);
 void server_start(server_t *server);
 void add_client_to_server(server_t *server, const client_t client);
+void server_remove_client(server_t *server, const int socket);
 
 #endif // _SERVER_H

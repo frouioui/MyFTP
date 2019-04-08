@@ -22,5 +22,6 @@ void execute_last_command(server_t *server, client_t *client);
 
 void user_login(server_t *server, client_t *client, char *cmd);
 void user_password(server_t *server, client_t *client, char *cmd);
+void user_quit(server_t *server, client_t *client, char *cmd);
 
 #endif // _COMMAND_H

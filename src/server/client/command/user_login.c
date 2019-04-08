@@ -8,11 +8,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "server.h"
 #include "client.h"
 #include "command.h"
 #include "string_parser.h"
 #include "user.h"
+#include "msg_queue.h"
 
 void user_login(server_t *server, client_t *client, char *cmd)
 {
@@ -57,4 +59,20 @@ void user_password(server_t *server, client_t *client, char *cmd)
         append_new_message(&client->write_queue, RESP_332);
     }
     FD_SET(client->socket, &server->sets[WRITING_SET]);
+}
+
+void user_quit(server_t *server, client_t *client, char *cmd)
+{
+    if (client->user.name != NULL)
+        free(client->user.name);
+    if (client->user.pass != NULL)
+        free(client->user.pass);
+    destroy_message_queue(&client->read_queue);
+    destroy_message_queue(&client->write_queue);
+    write(client->socket, RESP_221, strlen(RESP_221));
+    server_remove_client(server, client->socket);
+    FD_CLR(client->socket, &server->sets[WRITING_SET]);
+    FD_CLR(client->socket, &server->sets[READING_SET]);
+    close(client->socket);
+    (void)cmd;
 }
