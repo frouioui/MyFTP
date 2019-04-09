@@ -1,15 +1,15 @@
 ##
 ## FTP SERVER
 ##
-## Makefile of the string_parser static library
+## Makefile of the socket static library
 ##
 
 # Compilation
 CC		=	gcc
 CFLAGS	=	-W -Werror -Wextra -Wall -I$(INCLUDE_DIRECTORY)
 
-LIBRARY_NAME	=	libstring_parser.a
-TEST_NAME		=	string_parser_test
+LIBRARY_NAME	=	libsocket.a
+TEST_NAME		=	socket_test
 
 OBJS		=	$(SRC:.c=.o)
 TEST_OBJS	=	$(TEST_SRC:.c=.o)
@@ -22,12 +22,11 @@ TEST_DIRECTORY		=	./tests
 INCLUDE_DIRECTORY	=	./include
 
 # Source files
-SRC				=	$(SRC_DIRECTORY)/is_number.c			\
-					$(SRC_DIRECTORY)/to_lowercase.c			\
-					$(SRC_DIRECTORY)/trim.c					\
+SRC				=	$(SRC_DIRECTORY)/internet_connection.c			\
+					$(SRC_DIRECTORY)/socket.c						\
 
 # Test files
-TEST_SRC		=	$(TEST_DIRECTORY)/is_number_test.c		\
+TEST_SRC		=			\
 
 # Rules
 all: $(LIBRARY_NAME)
@@ -43,7 +42,7 @@ clean:
 	rm -f $(OBJS) $(TEST_OBJS)
 	rm -f *.gcda
 	rm -f *.gcno
-
+	
 fclean: clean
 	rm -f $(LIBRARY_NAME) $(TEST_NAME)
 
