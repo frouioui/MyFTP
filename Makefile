@@ -66,8 +66,13 @@ SRC			=	$(SRC_DIRECTORY)/argument/parser.c									\
 				$(SRC_DIRECTORY)/server/client/write_clients.c						\
 				$(SRC_DIRECTORY)/server/client/user/check_username.c				\
 				$(SRC_DIRECTORY)/server/client/user/check_password.c				\
+				$(SRC_DIRECTORY)/server/client/user/is_connected.c					\
 				$(SRC_DIRECTORY)/server/client/command/execute_command_client.c		\
 				$(SRC_DIRECTORY)/server/client/command/user_login.c					\
+				$(SRC_DIRECTORY)/server/client/command/noop.c						\
+				$(SRC_DIRECTORY)/server/client/command/help.c						\
+				$(SRC_DIRECTORY)/server/client/command/cdup.c						\
+				$(SRC_DIRECTORY)/server/client/command/cwd.c						\
 
 # Main file
 MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\

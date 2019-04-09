@@ -23,11 +23,10 @@ void user_login(server_t *server, client_t *client, char *cmd)
         client->user.name = NULL;
     }
     client->user.name = strdup(cmd);
-    str_to_lower_case(client->user.name);
-    trim_str(client->user.name, "\r\n");
     if (is_username_correct(client->user.name) == false) {
         append_new_message(&client->write_queue, RESP_530);
         free(client->user.name);
+        client->user.name = NULL;
     } else if (client->user.pass != NULL && client->user.name != NULL) {
         if (pass_and_user_valid(client->user) == true) {
             append_new_message(&client->write_queue, RESP_230);
@@ -47,8 +46,6 @@ void user_password(server_t *server, client_t *client, char *cmd)
         client->user.pass = NULL;
     }
     client->user.pass = strdup(cmd);
-    str_to_lower_case(client->user.pass);
-    trim_str(client->user.pass, "\r\n");
     if (client->user.pass != NULL && client->user.name != NULL) {
         if (pass_and_user_valid(client->user) == true) {
             append_new_message(&client->write_queue, RESP_230);
@@ -67,6 +64,7 @@ void user_quit(server_t *server, client_t *client, char *cmd)
         free(client->user.name);
     if (client->user.pass != NULL)
         free(client->user.pass);
+    free(client->path);
     destroy_message_queue(&client->read_queue);
     destroy_message_queue(&client->write_queue);
     write(client->socket, RESP_221, strlen(RESP_221));

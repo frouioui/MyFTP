@@ -11,6 +11,7 @@
         "argument.h": "c",
         "user.h": "c",
         "ioctl.h": "c",
-        "command.h": "c"
+        "command.h": "c",
+        "in.h": "c"
     }
 }
