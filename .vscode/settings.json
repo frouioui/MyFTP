@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "server.h": "c",
+        "socket.h": "c",
+        "types.h": "c",
+        "stdlib.h": "c",
+        "criterion.h": "c",
+        "msg_queue.h": "c",
+        "client.h": "c",
+        "select.h": "c",
+        "argument.h": "c",
+        "user.h": "c",
+        "ioctl.h": "c"
+    }
+}
