@@ -20,5 +20,6 @@ typedef struct user_s user_t;
 
 bool pass_and_user_valid(const user_t user);
 bool is_username_correct(const char *username);
+bool is_connected(user_t user);
 
 #endif // _USER_H

@@ -15,5 +15,4 @@ void destroy_message_queue(message_queue_t *msg_queue)
     }
     free(msg_queue->msg);
     free(msg_queue->end_of_msg);
-    free(msg_queue);
 }
