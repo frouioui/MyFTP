@@ -27,6 +27,8 @@ struct client_s {
     data_transfert_mode_t dt_mode;
     int dt_socket;
     int socket;
+    char *path;
+    char *parent_path;
 };
 
 typedef struct client_s client_t;
