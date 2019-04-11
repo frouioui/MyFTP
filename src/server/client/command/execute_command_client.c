@@ -35,7 +35,6 @@ static void analyse_command(server_t *server, client_t *client, char *cmd)
     bool execed = false;
 
     str_to_lower_case(tmp);
-    str_to_lower_case(cmd);
     trim_str(cmd, "\r\n");
     for (unsigned int i = 0; i < 8; i++) {
         if (strncmp(cmd_func[i].cmd, tmp, strlen(cmd_func[i].cmd)) == 0) {
