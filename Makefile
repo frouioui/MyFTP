@@ -69,6 +69,7 @@ SRC			=	$(SRC_DIRECTORY)/argument/parser.c									\
 				$(SRC_DIRECTORY)/server/client/user/check_password.c				\
 				$(SRC_DIRECTORY)/server/client/user/is_connected.c					\
 				$(SRC_DIRECTORY)/server/client/command/execute_command_client.c		\
+				$(SRC_DIRECTORY)/server/client/command/dele.c						\
 				$(SRC_DIRECTORY)/server/client/command/user_login.c					\
 				$(SRC_DIRECTORY)/server/client/command/noop.c						\
 				$(SRC_DIRECTORY)/server/client/command/help.c						\
