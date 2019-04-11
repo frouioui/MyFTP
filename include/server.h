@@ -32,6 +32,7 @@
 #define RESP_221 "221 Goodbye.\r\n"
 #define RESP_230 "230 User logged in, proceed. Logged out if appropriate.\r\n"
 #define RESP_250 "250 Directory successfully changed.\r\n"
+#define RESP_257 "257 "
 #define RESP_331 "331 User name okay, need password.\r\n"
 #define RESP_332 "332 Need account for login.\r\n"
 #define RESP_430 "430 Invalid username or password.\r\n"
