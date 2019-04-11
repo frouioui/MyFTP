@@ -50,7 +50,6 @@ static char *handle_path_operation(char *cmd, char *root, char *root_2)
 static char *check_path(char *root, char *root_2, char *cmd)
 {
     char *new_path = NULL;
-    char *buf = NULL;
 
     cmd[0] == 0 ? strcpy(cmd, root_2) : 0;
     root_2 = realpath(root_2[0] == '/' ? root_2 + 1 : root_2, NULL);
