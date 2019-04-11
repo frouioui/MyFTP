@@ -10,8 +10,7 @@
 
 bool pass_and_user_valid(const user_t user)
 {
-    (void)user;
-    if (true) {
+    if (strcmp(user.name, "anonymous") == 0) {
         return (true);
     }
     return (false);
