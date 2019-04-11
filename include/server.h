@@ -36,8 +36,10 @@
 #define RESP_332 "332 Need account for login.\r\n"
 #define RESP_430 "430 Invalid username or password.\r\n"
 #define RESP_503 "503 Invalid sequence of command.\r\n"
+#define RESP_500 "500 Unknown command.\r\n"
 #define RESP_530 "530 This FTP server is anonymous only.\r\n"
 #define RESP_530_NEED_CONNECT "530 Please login first.\r\n"
+#define RESP_530_LOGIN "530 Login incorrect.\r\n"
 #define RESP_550 "550 Failed to change directory.\r\n"
 
 enum server_error_type_s {

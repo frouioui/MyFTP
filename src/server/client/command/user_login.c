@@ -31,7 +31,7 @@ void user_login(server_t *server, client_t *client, char *cmd)
         if (pass_and_user_valid(client->user) == true) {
             append_new_message(&client->write_queue, RESP_230);
         } else {
-            append_new_message(&client->write_queue, RESP_430);
+            append_new_message(&client->write_queue, RESP_530_LOGIN);
         }
     } else {
         append_new_message(&client->write_queue, RESP_331);
@@ -50,7 +50,7 @@ void user_password(server_t *server, client_t *client, char *cmd)
         if (pass_and_user_valid(client->user) == true) {
             append_new_message(&client->write_queue, RESP_230);
         } else {
-            append_new_message(&client->write_queue, RESP_430);
+            append_new_message(&client->write_queue, RESP_530_LOGIN);
         }
     } else {
         append_new_message(&client->write_queue, RESP_332);
