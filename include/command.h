@@ -28,5 +28,6 @@ void help_user(server_t *server, client_t *client, char *cmd);
 void cdup_user(server_t *server, client_t *client, char *cmd);
 void cwd_user(server_t *server, client_t *client, char *cmd);
 void pwd_user(server_t *server, client_t *client, char *cmd);
+void delete_file_user(server_t *server, client_t *client, char *cmd);
 
 #endif // _COMMAND_H
