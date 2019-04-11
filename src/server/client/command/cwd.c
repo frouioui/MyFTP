@@ -21,18 +21,25 @@ static char *check_path(char *root, char *root_2, char *cmd)
     char *buf = NULL;
 
     cmd[0] == 0 ? strcpy(cmd, root_2) : 0;
-    root_2 = realpath(root_2, NULL);
+    root_2 = realpath(root_2[0] == '/' ? root_2 + 1 : root_2, NULL);
     root = realpath(root, NULL);
     if (cmd[0] == '/') {
         buf = calloc(1, sizeof(char) * (strlen(root) + strlen(root_2) +
             strlen(cmd) + 1));
         buf = strcat(buf, root);
         buf = strcat(buf, cmd);
-        cmd = buf;
+        cmd = strdup(buf);
+    } else {
+        buf = calloc(1, sizeof(char) * (strlen(cmd) + 2 + strlen(root_2)));
+        buf = strcat(buf, root_2);
+        buf = strcat(buf, "/");
+        buf = strcat(buf, cmd);
+        cmd = strdup(buf);
     }
-    new_path = realpath(cmd, new_path);
+    free(buf);
+    new_path = realpath(cmd, NULL);
     if (!new_path)
-        return (NULL);
+        return (root_2);
     if (strncmp(new_path, root_2, strlen(root)))
         return (root);
     return (new_path);
@@ -40,10 +47,9 @@ static char *check_path(char *root, char *root_2, char *cmd)
 
 static char *clear_path_client(char *root, char *path)
 {
-    char *new = malloc(sizeof(char) * (strlen(root) + strlen(path) + 1));
+    char *new = calloc(1, sizeof(char) * (strlen(root) + strlen(path) + 1));
     int a = 0;
 
-    new[a++] = '/';
     for (unsigned int i = strlen(root); i < strlen(path) && path[i]; i++) {
         new[a++] = path[i];
         new[a] = '\0';
@@ -52,10 +58,10 @@ static char *clear_path_client(char *root, char *path)
     return (new);
 }
 
-void cwd_user(server_t *server, __attribute__((unused)) client_t *client,
-    char *cmd)
+void cwd_user(server_t *server, client_t *client, char *cmd)
 {
     char *new_p = NULL;
+    char *par = NULL;
 
     if (is_connected(client->user) == false) {
         append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
@@ -67,9 +73,10 @@ void cwd_user(server_t *server, __attribute__((unused)) client_t *client,
             free(new_p);
             return;
         }
-        new_p = clear_path_client(client->parent_path, new_p);
+        par = realpath(client->parent_path, NULL);
+        new_p = clear_path_client(par, new_p);
         free(client->path);
-        client->path = new_p;
+        client->path = strlen(new_p) != 0 ? new_p : strdup(client->parent_path);
         append_new_message(&client->write_queue, RESP_250);
     }
     FD_SET(client->socket, &server->sets[WRITING_SET]);
