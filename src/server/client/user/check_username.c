@@ -12,5 +12,6 @@
 
 bool is_username_correct(const char *username)
 {
+    (void)username;
     return (true);
 }
