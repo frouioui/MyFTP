@@ -12,5 +12,5 @@
 
 bool is_username_correct(const char *username)
 {
-    return (strcmp(username, "anonymous") == 0);
+    return (true);
 }
