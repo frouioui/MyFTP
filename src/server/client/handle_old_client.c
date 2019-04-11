@@ -48,7 +48,7 @@ static void write_client(server_t *server, client_t *client)
         c = read_and_trim_last_message(&client->write_queue, 1);
         if (c == NULL)
             break;
-        ret = send(client->socket, c, 1, MSG_MORE);
+        ret = write(client->socket, c, 1);
         free(c);
     }
     if (client->write_queue.nb_msg == 0) {
