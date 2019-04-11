@@ -19,6 +19,8 @@ void cdup_user(server_t *server, client_t *client, char *cmd)
     if (is_connected(client->user) == false) {
         append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
     } else {
+        free(client->path);
+        client->path = strdup(client->parent_path);
         append_new_message(&client->write_queue, RESP_250);
     }
     FD_SET(client->socket, &server->sets[WRITING_SET]);
