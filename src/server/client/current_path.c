@@ -12,19 +12,12 @@
 
 char *get_current_path(const client_t *client)
 {
-    char *path = NULL;
-    char *full_root = NULL;
     char *pwd = NULL;
 
-    path = realpath(client->path[0] == '/' ? client->path + 1 : client->path,
-        NULL);
-    full_root = realpath(client->parent_path, NULL);
-    pwd = strdup(path + strlen(full_root));
+    pwd = strdup(client->path + strlen(client->parent_path));
     if (strlen(pwd) == 0) {
         free(pwd);
         pwd = strdup("/");
     }
-    free(path);
-    free(full_root);
     return (pwd);
 }

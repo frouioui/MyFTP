@@ -52,34 +52,18 @@ static char *check_path(char *root, char *root_2, char *cmd)
     char *new_path = NULL;
 
     cmd[0] == 0 ? strcpy(cmd, root_2) : 0;
-    root_2 = realpath(root_2[0] == '/' ? root_2 + 1 : root_2, NULL);
-    root = realpath(root, NULL);
     cmd = handle_path_operation(cmd, root, root_2);
     new_path = realpath(cmd, NULL);
     if (!new_path)
         return (NULL);
     if (strncmp(new_path, root_2, strlen(root)))
-        return (root);
+        return (strdup(root));
     return (new_path);
-}
-
-static char *clear_path_client(char *root, char *path)
-{
-    char *new = calloc(1, sizeof(char) * (strlen(root) + strlen(path) + 1));
-    int a = 0;
-
-    for (unsigned int i = strlen(root); i < strlen(path) && path[i]; i++) {
-        new[a++] = path[i];
-        new[a] = '\0';
-    }
-    free(path);
-    return (new);
 }
 
 void cwd_user(server_t *server, client_t *client, char *cmd)
 {
     char *new_p = NULL;
-    char *par = NULL;
 
     if (is_connected(client->user) == false) {
         append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
@@ -90,8 +74,6 @@ void cwd_user(server_t *server, client_t *client, char *cmd)
             free(new_p);
             return;
         }
-        par = realpath(client->parent_path, NULL);
-        new_p = clear_path_client(par, new_p);
         free(client->path);
         client->path = strlen(new_p) != 0 ? new_p : strdup(client->parent_path);
         append_new_message(&client->write_queue, RESP_250);
