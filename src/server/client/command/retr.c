@@ -38,8 +38,9 @@ void retr(server_t *server, client_t *client, char *cmd)
     } else if (client->dt_mode != PASSIVE) {
         append_new_message(&client->write_queue, RESP_425);
     } else {
-        accept_data(client);
         append_new_message(&client->write_queue, RESP_150);
+        accept_data(client);
+        write(client->dt_socket, "toto\r\n", 6);
         close(client->dt_socket);
         client->dt_mode = NOT_SET;
     }

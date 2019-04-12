@@ -27,9 +27,9 @@ static char *get_ip_string(char *ip, char *msg)
 
     while ((tok = strsep(&ip, ".")) != NULL && i < 4) {
         if (i < 3) {
-	        msg = strcat(strcat(msg, tok), ",");
+            msg = strcat(strcat(msg, tok), ",");
         } else {
-	        msg = strcat(msg, tok);
+            msg = strcat(msg, tok);
         }
         i++;
     }
