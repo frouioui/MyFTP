@@ -38,8 +38,8 @@ static char *get_ip_string(char *ip, char *msg)
 
 static char *create_new_client_information(server_t *server, client_t *client)
 {
-    char *msg = malloc(sizeof(char) * 255);
-    char *port = malloc(sizeof(char) * 255);
+    char *msg = calloc(1, sizeof(char) * 255);
+    char *port = calloc(1, sizeof(char) * 255);
     struct sockaddr_in new_in = create_socket_internet_address(0);
     char *tmp_ip = NULL;
     socklen_t size = 0;
@@ -55,6 +55,7 @@ static char *create_new_client_information(server_t *server, client_t *client)
     sprintf(port, ",%d,%d).\r\n", new_in.sin_port / 256, new_in.sin_port
         % 256);
     msg = strcat(msg, port);
+    client->dt_info = new_in;
     return (msg);
 }
 
