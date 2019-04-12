@@ -12,6 +12,9 @@
         "user.h": "c",
         "ioctl.h": "c",
         "command.h": "c",
-        "in.h": "c"
+        "in.h": "c",
+        "string_parser.h": "c",
+        "ftp.h": "c",
+        "string.h": "c"
     }
 }

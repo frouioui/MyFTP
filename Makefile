@@ -76,6 +76,11 @@ SRC			=	$(SRC_DIRECTORY)/argument/parser.c									\
 				$(SRC_DIRECTORY)/server/client/command/cdup.c						\
 				$(SRC_DIRECTORY)/server/client/command/cwd.c						\
 				$(SRC_DIRECTORY)/server/client/command/pwd.c						\
+				$(SRC_DIRECTORY)/server/client/command/pasv.c						\
+				$(SRC_DIRECTORY)/server/client/command/port.c						\
+				$(SRC_DIRECTORY)/server/client/command/list.c						\
+				$(SRC_DIRECTORY)/server/client/command/retr.c						\
+				$(SRC_DIRECTORY)/server/client/command/stor.c						\
 
 # Main file
 MAIN_SRC	=	$(SRC_DIRECTORY)/main.c								\

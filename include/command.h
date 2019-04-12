@@ -29,5 +29,10 @@ void cdup_user(server_t *server, client_t *client, char *cmd);
 void cwd_user(server_t *server, client_t *client, char *cmd);
 void pwd_user(server_t *server, client_t *client, char *cmd);
 void delete_file_user(server_t *server, client_t *client, char *cmd);
+void pasv(server_t *server, client_t *client, char *cmd);
+void port(server_t *server, client_t *client, char *cmd);
+void list(server_t *server, client_t *client, char *cmd);
+void retr(server_t *server, client_t *client, char *cmd);
+void stor(server_t *server, client_t *client, char *cmd);
 
 #endif // _COMMAND_H
