@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
     if (server.err.err_type != NONE) {
         printf("%s\n", server.err.msg);
         return (FAILURE);
+    } else if (server.d_path == NULL) {
+        return (FAILURE);
     }
     server_start(&server);
     return (SUCCESS);

@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/myftp",
-            "args": ["8888", "./"],
+            "args": ["8887", "/home/pflorent"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -5,13 +5,6 @@
 ** Delete a file
 */
 
-/*
-** EPITECH PROJECT, 2019
-** MyFTP
-** File description:
-** Source file of the CDW command
-*/
-
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
@@ -28,17 +21,19 @@
 void delete_file_user(server_t *server, client_t *client, char *cmd)
 {
     char *cmd_path = NULL;
-    char *root = NULL;
-    char *root_2 = NULL;
 
     if (is_connected(client->user) == false) {
         append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
     } else {
-        cmd_path = realpath(cmd, NULL);
-        root = realpath(client->parent_path, NULL);
-        root_2 = realpath(client->path, NULL);
+        cmd_path = calloc(1, sizeof(char) *
+            (strlen(client->path) + strlen(cmd) + 4));
+        cmd_path = strcat(cmd_path, client->path);
+        cmd_path = strcat(cmd_path, "/");
+        cmd_path = strcat(cmd_path, cmd);
+        cmd_path = realpath(cmd_path, NULL);
         if (cmd_path == NULL ||
-        strncmp(cmd_path, root_2, strlen(root)) != 0 || unlink(cmd) < 0) {
+        strncmp(cmd_path, client->path, strlen(client->parent_path)) != 0
+            || unlink(cmd_path) < 0) {
             append_new_message(&client->write_queue, RESP_550);
             return;
         }

@@ -16,7 +16,7 @@ Test(init_server, check_values)
 
     server = init_server(args);
     cr_assert_eq(server.port, args.port);
-    cr_assert_str_eq(server.d_path, "toto");
+    cr_assert_null(server.d_path);
     cr_assert_eq(server.nb_client, 0);
     cr_assert_eq(server.socket, -1);
 }
