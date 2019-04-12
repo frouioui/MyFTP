@@ -16,7 +16,6 @@
 
 static void unknown_command(server_t *server, client_t *client)
 {
-
     if (is_connected(client->user) == false) {
         append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
     } else {
@@ -27,16 +26,17 @@ static void unknown_command(server_t *server, client_t *client)
 
 static void analyse_command(server_t *server, client_t *client, char *cmd)
 {
-    cmd_function_t cmd_func[9] = {{"user", user_login},
+    cmd_function_t cmd_func[15] = {{"user", user_login},
         {"pass", user_password}, {"quit", user_quit}, {"noop", noop_user},
         {"help", help_user}, {"cdup", cdup_user}, {"cwd", cwd_user},
-        {"pwd", pwd_user}, {"dele", delete_file_user}};
+        {"pwd", pwd_user}, {"dele", delete_file_user}, {"pasv", pasv},
+        {"port", port}, {"retr", retr}, {"stor", stor}, {"list", list}};
     char *tmp = strdup(cmd);
     bool execed = false;
 
     str_to_lower_case(tmp);
     trim_str(cmd, "\r\n");
-    for (unsigned int i = 0; i < 9; i++) {
+    for (unsigned int i = 0; i < 15; i++) {
         if (strncmp(cmd_func[i].cmd, tmp, strlen(cmd_func[i].cmd)) == 0) {
             cmd_func[i].exec(server, client,
                 strdup(cmd + (strlen(cmd_func[i].cmd) + 1)));
