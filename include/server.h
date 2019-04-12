@@ -25,6 +25,7 @@
 #define WRITEWORK_SET 3
 
 // server reponses
+#define RESP_150 "150 Ready.\r\n"
 #define RESP_200 "200 OK.\r\n"
 #define RESP_214 "214 Help message\nUSER PASS HELP PWD CWD NOOP QUIT PASV\n"\
                 "214 OK\r\n"

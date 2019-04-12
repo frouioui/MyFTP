@@ -21,6 +21,15 @@
 #include "string_parser.h"
 #include "socket.h"
 
+static int accept_data(client_t *client)
+{
+    int addrlen = sizeof(client->dt_info);
+    int dsock = accept(client->dt_socket, (struct sockaddr *)&client->dt_info,
+            (socklen_t *)&addrlen);
+
+    return (dsock);
+}
+
 void retr(server_t *server, client_t *client, char *cmd)
 {
     (void)cmd;
@@ -29,7 +38,8 @@ void retr(server_t *server, client_t *client, char *cmd)
     } else if (client->dt_mode != PASSIVE) {
         append_new_message(&client->write_queue, RESP_425);
     } else {
-        append_new_message(&client->write_queue, RESP_200);
+        accept_data(client);
+        append_new_message(&client->write_queue, RESP_150);
         close(client->dt_socket);
         client->dt_mode = NOT_SET;
     }
