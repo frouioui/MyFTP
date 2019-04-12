@@ -8,6 +8,7 @@
 #if !defined(_CLIENT_H)
 #define _CLIENT_H
 
+#include <netinet/in.h>
 #include "user.h"
 #include "msg_queue.h"
 
@@ -26,6 +27,7 @@ struct client_s {
     message_queue_t read_queue;
     data_transfert_mode_t dt_mode;
     int dt_socket;
+    struct sockaddr_in dt_info;
     int socket;
     char *path;
     char *parent_path;

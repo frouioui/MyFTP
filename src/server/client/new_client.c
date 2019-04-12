@@ -21,7 +21,7 @@ client_t connect_new_client(void *server)
     new_client.socket = accept(srv->socket, (struct sockaddr *)&srv->info,
             (socklen_t *)&addrlen);
     if (new_client.socket <= 0) {
-        srv->err = new_server_error(CONTINUE, "could not connect the user");
+        srv->err = new_server_error(KEEP, "could not connect the user");
         return (new_client);
     }
     new_client.path = strdup(srv->d_path);
