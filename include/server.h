@@ -25,16 +25,19 @@
 #define WRITEWORK_SET 3
 
 // server reponses
+#define RESP_150 "150 Ready.\r\n"
 #define RESP_200 "200 OK.\r\n"
-#define RESP_214 "214 Help message\nUSER PASS HELP PWD CWD NOOP QUIT\n"\
+#define RESP_214 "214 Help message\nUSER PASS HELP PWD CWD NOOP QUIT PASV\n"\
                 "214 OK\r\n"
 #define RESP_220 "220 Connected.\r\n"
 #define RESP_221 "221 Goodbye.\r\n"
+#define RESP_227 "227 Entering Passive mode ("
 #define RESP_230 "230 User logged in, proceed. Logged out if appropriate.\r\n"
 #define RESP_250 "250 Directory successfully changed.\r\n"
 #define RESP_257 "257 "
 #define RESP_331 "331 User name okay, need password.\r\n"
 #define RESP_332 "332 Need account for login.\r\n"
+#define RESP_425 "425 Use PORT or PASV first.\r\n"
 #define RESP_430 "430 Invalid username or password.\r\n"
 #define RESP_503 "503 Invalid sequence of command.\r\n"
 #define RESP_500 "500 Unknown command.\r\n"
@@ -46,7 +49,7 @@
 enum server_error_type_s {
     NONE,
     FATAL,
-    CONTINUE
+    KEEP,
 };
 
 typedef enum server_error_type_s server_error_type_t;

@@ -20,7 +20,7 @@ int bind_socket(const int socket, struct sockaddr_in *info, const bool rand)
     int ret = 0;
 
     if (rand == true) {
-        info->sin_port = 0;
+        info->sin_port = htons(0);
     }
     ret = bind(socket, (struct sockaddr *)info, sizeof(*info));
     return (ret);
