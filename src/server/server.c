@@ -35,7 +35,6 @@ void server_start(server_t *server)
         if (ret == -1) {
             server->err = new_server_error(KEEP, strerror(errno));
         } else if (ret == 0) {
-            // TODO: handle timeout ref: https://github.com/frouioui/MyFTP/issues/17
             (void)timeout;
         } else {
             handle_io(server);
