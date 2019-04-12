@@ -6,12 +6,19 @@
 */
 
 #include <string.h>
+#include <stdlib.h>
 #include "user.h"
+#include "string_parser.h"
 
 bool pass_and_user_valid(const user_t user)
 {
-    if (strcmp(user.name, "anonymous") == 0) {
+    char *name = strdup(user.name);
+
+    str_to_lower_case(name);
+    if (strcmp(name, "anonymous") == 0) {
+        free(name);
         return (true);
     }
+    free(name);
     return (false);
 }
