@@ -24,7 +24,7 @@
 #include "string_parser.h"
 #include "socket.h"
 
-static int accept_data(client_t *client)
+int accept_data(client_t *client)
 {
     int addrlen = sizeof(client->dt_info);
     int dsock = accept(client->dt_socket, (struct sockaddr *)&client->dt_info,
@@ -55,9 +55,15 @@ static void retreive_file(const int csock, const int dsock, const char *file)
 
     pid = fork();
     if (pid == 0) {
-        f_fd = open(file, O_RDONLY);
-        if (f_fd <= 0)
+        if (file == NULL) {
+            write(csock, "226 Done with error file NULL.\r\n", 32);
             exit(1);
+        }
+        f_fd = open(file, O_RDONLY);
+        if (f_fd <= 0) {
+            write(csock, "226 Done with error cant open file.\r\n", 37);
+            exit(1);
+        }
         read_file_retr(f_fd, dsock);
         write(csock, "226 Done.\r\n", 11);
         close(f_fd);
@@ -79,7 +85,8 @@ void retr(server_t *server, client_t *client, char *cmd)
         } else {
             append_new_message(&client->write_queue, RESP_150);
             dsock = accept_data(client);
-            retreive_file(client->socket, dsock, cmd);
+            retreive_file(client->socket, dsock,
+                check_path(client->parent_path, client->path, cmd));
             close(dsock);
             close(client->dt_socket);
             client->dt_mode = NOT_SET;

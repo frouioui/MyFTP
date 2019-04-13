@@ -45,7 +45,7 @@
 #define RESP_530_NEED_CONNECT "530 Please login first.\r\n"
 #define RESP_530_LOGIN "530 Login incorrect.\r\n"
 #define RESP_550 "550 Failed to change directory.\r\n"
-#define RESP_550_FILE "550 Filaed to open file.\r\n"
+#define RESP_550_FILE "550 Failed to open file.\r\n"
 
 enum server_error_type_s {
     NONE,

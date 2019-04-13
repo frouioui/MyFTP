@@ -44,5 +44,6 @@ void handle_old_client(void *server, const int client_fd, bool r, bool w);
 char *get_current_path(const client_t *client);
 char *check_path(char *root, char *root_2, char *cmd);
 bool check_file(const char *path);
+int accept_data(client_t *client);
 
 #endif // _CLIENT_H

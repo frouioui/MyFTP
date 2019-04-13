@@ -22,6 +22,9 @@ bool check_file(const char *path)
 {
     struct stat path_stat;
 
+    if (path == NULL) {
+        return (false);
+    }
     if (stat(path, &path_stat) == -1)
         return (false);
     if (S_ISREG(path_stat.st_mode))
