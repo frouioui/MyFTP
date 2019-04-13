@@ -47,7 +47,7 @@ static char *handle_path_operation(char *cmd, char *root, char *root_2)
     return (cmd);
 }
 
-static char *check_path(char *root, char *root_2, char *cmd)
+char *check_path(char *root, char *root_2, char *cmd)
 {
     char *new_path = NULL;
 

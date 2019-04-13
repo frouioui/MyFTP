@@ -61,6 +61,10 @@ void handle_old_client(void *server, const int client_fd, bool r, bool w)
     server_t *srv = server;
     client_t *client = find_request_client(srv, client_fd);
 
+    if (client == NULL) {
+        printf("New [unknown] client tried to connect.\n");
+        return;
+    }
     if (client->socket != client_fd)
         return;
     if (r) {

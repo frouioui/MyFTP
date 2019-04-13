@@ -45,6 +45,7 @@
 #define RESP_530_NEED_CONNECT "530 Please login first.\r\n"
 #define RESP_530_LOGIN "530 Login incorrect.\r\n"
 #define RESP_550 "550 Failed to change directory.\r\n"
+#define RESP_550_FILE "550 Filaed to open file.\r\n"
 
 enum server_error_type_s {
     NONE,
@@ -80,5 +81,6 @@ server_error_t new_server_error(server_error_type_t type, char *message);
 void server_start(server_t *server);
 void add_client_to_server(server_t *server, const client_t client);
 void server_remove_client(server_t *server, const int socket);
+void handle_new_connection(server_t *server);
 
 #endif // _SERVER_H

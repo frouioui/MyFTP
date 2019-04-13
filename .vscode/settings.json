@@ -15,6 +15,7 @@
         "in.h": "c",
         "string_parser.h": "c",
         "ftp.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "netdb.h": "c"
     }
 }

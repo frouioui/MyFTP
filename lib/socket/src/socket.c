@@ -9,10 +9,20 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <stdlib.h>
+#include <netdb.h>
 
 int create_socket(void)
 {
-    return (socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0));
+    struct protoent *proto = getprotobyname("TCP");
+    int fd = 0;
+    int p = 1;
+
+    if (proto == NULL)
+        return (-1);
+    fd = socket(AF_INET, SOCK_STREAM, proto->p_proto);
+    setsockopt(fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &p, sizeof(int));
+    return (fd);
 }
 
 int bind_socket(const int socket, struct sockaddr_in *info, const bool rand)

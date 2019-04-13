@@ -52,8 +52,8 @@ static char *create_new_client_information(server_t *server, client_t *client)
     tmp_ip = strdup(inet_ntoa(server->info.sin_addr));
     listen_socket(client->dt_socket, MAXIMUM_PENDING_CONNECTION);
     msg = get_ip_string(tmp_ip, msg);
-    sprintf(port, ",%d,%d).\r\n", new_in.sin_port / 256, new_in.sin_port
-        % 256);
+    sprintf(port, ",%d,%d).\r\n", ntohs(new_in.sin_port) / 256,
+        ntohs(new_in.sin_port) % 256);
     msg = strcat(msg, port);
     client->dt_info = new_in;
     return (msg);
@@ -74,8 +74,6 @@ void pasv(server_t *server, client_t *client, char *cmd)
         final_msg = strcat(final_msg, RESP_227);
         final_msg = strcat(final_msg, msg);
         append_new_message(&client->write_queue, final_msg);
-        FD_SET(client->dt_socket, &server->sets[WRITING_SET]);
-        FD_SET(client->dt_socket, &server->sets[READING_SET]);
     }
     FD_SET(client->socket, &server->sets[WRITING_SET]);
 }
