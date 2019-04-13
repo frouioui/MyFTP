@@ -27,6 +27,5 @@ client_t connect_new_client(void *server)
     new_client.path = strdup(srv->d_path);
     new_client.parent_path = strdup(srv->d_path);
     FD_SET(new_client.socket, &srv->sets[READING_SET]);
-    FD_SET(new_client.socket, &srv->sets[WRITING_SET]);
     return (new_client);
 }

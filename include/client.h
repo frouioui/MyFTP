@@ -42,5 +42,7 @@ client_t connect_new_client(void *server);
 void init_client_queues(client_t *client);
 void handle_old_client(void *server, const int client_fd, bool r, bool w);
 char *get_current_path(const client_t *client);
+char *check_path(char *root, char *root_2, char *cmd);
+bool check_file(const char *path);
 
 #endif // _CLIENT_H

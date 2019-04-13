@@ -13,7 +13,7 @@
 #include "client.h"
 #include "msg_queue.h"
 
-static void handle_new_connection(server_t *server)
+void handle_new_connection(server_t *server)
 {
     client_t client = {0};
 
