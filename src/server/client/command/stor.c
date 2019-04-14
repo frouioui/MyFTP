@@ -29,7 +29,7 @@ static void store_file(client_t *client, int dsock, char *file)
     char buf[2] = {0};
 
     if (chdir(client->path) == -1 || (f = fopen(file, "w+")) == NULL) {
-        append_new_message(&client->write_queue, RESP_500);
+        write(client->socket, RESP_500, strlen(RESP_500));
         return;
     }
     pid = fork();
