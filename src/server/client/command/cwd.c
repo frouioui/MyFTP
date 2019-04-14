@@ -65,6 +65,24 @@ char *check_path(char *root, char *root_2, char *cmd)
     return (new_path);
 }
 
+char *check_path_no_error(char *root, char *root_2, char *cmd)
+{
+    char *new_path = NULL;
+
+    if (cmd == NULL || cmd[0] == 0) {
+        cmd = calloc(1, sizeof(char) * (strlen(root_2) + 2));
+        strcpy(cmd, root_2);
+        return (cmd);
+    }
+    cmd = handle_path_operation(cmd, root, root_2);
+    new_path = realpath(cmd, NULL);
+    if (!new_path)
+        return (cmd);
+    if (strncmp(new_path, root_2, strlen(root)))
+        return (strdup(root));
+    return (new_path);
+}
+
 void cwd_user(server_t *server, client_t *client, char *cmd)
 {
     char *new_p = NULL;
