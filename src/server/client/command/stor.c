@@ -44,21 +44,21 @@ static void store_file(client_t *client, int dsock, char *file)
     }
 }
 
-void stor(server_t *server, client_t *client, char *cmd)
+void stor(server_t *server, client_t *cl, char *cmd)
 {
     int dsock = 0;
 
-    if (is_connected(client->user) == false) {
-        append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
-    } else if (client->dt_mode != PASSIVE) {
-        append_new_message(&client->write_queue, RESP_425);
+    if (is_connected(cl->user) == false) {
+        append_new_message(&cl->write_queue, RESP_530_NEED_CONNECT);
+    } else if (cl->dt_mode == NOT_SET) {
+        append_new_message(&cl->write_queue, RESP_425);
     } else {
-        append_new_message(&client->write_queue, RESP_150);
-        dsock = accept_data(client);
-        store_file(client, dsock, cmd);
-        close(dsock);
-        close(client->dt_socket);
-        client->dt_mode = NOT_SET;
+        append_new_message(&cl->write_queue, RESP_150);
+        dsock = cl->dt_mode == ACTIVE ? connect_data(cl) : accept_data(cl);
+        store_file(cl, cl->dt_mode == ACTIVE ? cl->dt_socket : dsock, cmd);
+        cl->dt_mode == PASSIVE ? close(dsock) : 0;
+        close(cl->dt_socket);
+        cl->dt_mode = NOT_SET;
     }
-    FD_SET(client->socket, &server->sets[WRITING_SET]);
+    FD_SET(cl->socket, &server->sets[WRITING_SET]);
 }

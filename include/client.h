@@ -46,5 +46,6 @@ char *check_path(char *root, char *root_2, char *cmd);
 char *check_path_no_error(char *root, char *root_2, char *cmd);
 bool check_file(const char *path);
 int accept_data(client_t *client);
+int connect_data(client_t *client);
 
 #endif // _CLIENT_H

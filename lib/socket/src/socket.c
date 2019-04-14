@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <netdb.h>
 
 int create_socket(void)
