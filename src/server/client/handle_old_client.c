@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "msg_queue.h"
 #include "server.h"
 #include "client.h"
@@ -24,7 +26,7 @@ static client_t *find_request_client(server_t *server, const int client_fd)
     return (NULL);
 }
 
-static void read_client(client_t *client)
+static bool read_client(server_t *server, client_t *client)
 {
     char buf1[2] = {0};
     char *buf = NULL;
@@ -32,11 +34,18 @@ static void read_client(client_t *client)
 
     for (int ret = 1; ret > 0 && !is_last_message_done(&client->read_queue);) {
         ret = read(client->socket, &c, 1);
+        if (ret == 0 && c == 0) {
+            FD_CLR(client->socket, &server->sets[WRITING_SET]);
+            FD_CLR(client->socket, &server->sets[READING_SET]);
+            user_quit(server, client, "");
+            return (false);
+        }
         buf1[0] = c;
         buf = strdup(buf1);
         append_new_message(&client->read_queue, buf);
         free(buf);
     }
+    return (true);
 }
 
 static void write_client(server_t *server, client_t *client)
@@ -68,7 +77,8 @@ void handle_old_client(void *server, const int client_fd, bool r, bool w)
     if (client->socket != client_fd)
         return;
     if (r) {
-        read_client(client);
+        if (read_client(server, client) == false)
+            return;
         execute_last_command(server, client);
     } else if (w) {
         write_client(server, client);
