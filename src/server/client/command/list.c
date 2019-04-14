@@ -41,13 +41,12 @@ static void ls_dir(const int csock, const int sock, char *p)
 
     pid = fork();
     if (pid == 0) {
-        if (p == NULL) {
-            write(csock, "226 Done.\r\n", 11);
-            exit(0);
-        }
-        cmd = calloc(1, sizeof(char) * (strlen(p) + strlen("ls -la ") + 1));
-        cmd = strcat(cmd, "ls -la ");
+        !p ? write(csock, "226 Done.\r\n", 11) : 0;
+        !p ? exit(0) : 0;
+        cmd = calloc(1, sizeof(char) * (strlen(p) + 30 + 1));
+        cmd = strcat(cmd, "ls -l ");
         cmd = strcat(cmd, p);
+        cmd = strcat(cmd , " | grep -v '^total'");
         ofd = dup(1);
         dup2(sock, 1);
         system(cmd);
