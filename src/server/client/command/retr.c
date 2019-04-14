@@ -48,7 +48,7 @@ static void read_file_retr(const int f_fd, const int sock)
     }
 }
 
-static void retreive_file(const int csock, const int dsock, const char *file)
+static void retr_f(const int csock, const int dsock, const char *file)
 {
     int pid = 0;
     int f_fd = 0;
@@ -71,26 +71,26 @@ static void retreive_file(const int csock, const int dsock, const char *file)
     }
 }
 
-void retr(server_t *server, client_t *client, char *cmd)
+void retr(server_t *server, client_t *cl, char *cmd)
 {
     int dsock = 0;
 
-    if (is_connected(client->user) == false) {
-        append_new_message(&client->write_queue, RESP_530_NEED_CONNECT);
-    } else if (client->dt_mode != PASSIVE) {
-        append_new_message(&client->write_queue, RESP_425);
+    if (is_connected(cl->user) == false) {
+        append_new_message(&cl->write_queue, RESP_530_NEED_CONNECT);
+    } else if (cl->dt_mode == NOT_SET) {
+        append_new_message(&cl->write_queue, RESP_425);
     } else {
-        if (!check_file(check_path(client->parent_path, client->path, cmd))) {
-            append_new_message(&client->write_queue, RESP_550_FILE);
+        if (!check_file(check_path(cl->parent_path, cl->path, cmd))) {
+            append_new_message(&cl->write_queue, RESP_550_FILE);
         } else {
-            append_new_message(&client->write_queue, RESP_150);
-            dsock = accept_data(client);
-            retreive_file(client->socket, dsock,
-                check_path(client->parent_path, client->path, cmd));
-            close(dsock);
-            close(client->dt_socket);
-            client->dt_mode = NOT_SET;
+            append_new_message(&cl->write_queue, RESP_150);
+            dsock = cl->dt_mode == ACTIVE ? connect_data(cl) : accept_data(cl);
+            retr_f(cl->socket, cl->dt_mode == ACTIVE ? cl->dt_socket : dsock,
+                check_path(cl->parent_path, cl->path, cmd));
+            cl->dt_mode == PASSIVE ? close(dsock) : 0;
+            close(cl->dt_socket);
+            cl->dt_mode = NOT_SET;
         }
     }
-    FD_SET(client->socket, &server->sets[WRITING_SET]);
+    FD_SET(cl->socket, &server->sets[WRITING_SET]);
 }
