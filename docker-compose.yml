@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  ftp-server:
+    image: epitechcontent/epitest-docker
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - "1-65535:1-65535"
+    command: mkdir /data && cd app && make && ./myftp 21 /data
+
